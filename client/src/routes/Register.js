@@ -26,7 +26,8 @@ const Register = (props) => {
 	////function to register user from the server after he has entered the information
     //// if all the information is valid redirect him to login page else display the flash message
   	const register = () => {
-	    Axios({
+	    console.log('request rec',registerUsername,registerPassword);
+		Axios({
 			method: "POST",
 			data: {
 			username: registerUsername,

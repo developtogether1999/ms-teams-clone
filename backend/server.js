@@ -1,5 +1,4 @@
-require('dotenv').config();
-const nodemailer = require('nodemailer'); // required to mail meet link
+
 const express = require("express");
 const http = require("http");
 const app = express();
@@ -18,8 +17,44 @@ const bodyParser = require("body-parser");
 const User = require("./models/user.models");
 const flash = require("express-flash");  
 
-const { connectDb } = require('./config/connectDb')
-connectDb()
+
+const dbURI = "mongodb://localhost/ms-teams-database"
+        mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+            .then(result => {
+                console.log("Mongoose Is Connected");
+                server.listen(process.env.PORT || 8000, () => console.log('server is running on port 8000'));
+            })
+            .catch(err => console.log(err));
+        
+
+app.use(flash());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+////cors is used to allow cross-origin request
+
+app.use(
+  	cors({
+	    origin: "http://localhost:3000", 
+    	methods: [ "GET", "POST" ],
+    	credentials: true,
+  	})
+);
+
+app.use(
+    session({
+      	secret: "secretcode",
+      	resave: true,
+      	saveUninitialized: true,
+    })
+);
+
+app.use(cookieParser("secretcode"));
+
+////Initializing local-passport for user authentication
+app.use(passport.initialize());
+app.use(passport.session());
+require("./config/passport-config")(passport);
 
 const registerRoute = require('./routes/register')                  //Register route
 app.use(registerRoute)
@@ -27,3 +62,7 @@ app.use(registerRoute)
 const loginRoute = require('./routes/login')                        //Login route
 app.use(loginRoute)
 
+// const PORT = process.env.PORT
+// server.listen( PORT || 8000, () => {                                           //Server started locally on PORT (currently 3000)
+//     console.log(`Server started on PORT ${PORT || 8000}`)
+// })
