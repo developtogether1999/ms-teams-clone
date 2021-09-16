@@ -39,7 +39,7 @@ const Login = (props) => {
             setAuthMsg(response.data.message);
             setShowAuthMsg(true);
             if (response.data.redirect == '/') {
-                props.history.push(`/`);
+                props.history.push(`/teams`);
             } 
         });
     };

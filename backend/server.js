@@ -62,6 +62,9 @@ app.use(registerRoute)
 const loginRoute = require('./routes/login')                        //Login route
 app.use(loginRoute)
 
+const createTeamRoute = require('./routes/createTeam')                        //Login route
+app.use(createTeamRoute)
+
 // const PORT = process.env.PORT
 // server.listen( PORT || 8000, () => {                                           //Server started locally on PORT (currently 3000)
 //     console.log(`Server started on PORT ${PORT || 8000}`)

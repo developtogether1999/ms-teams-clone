@@ -8,7 +8,7 @@ import {Row,  Col, Image} from 'react-bootstrap';
 
 
 const HomePage = (props) => {
-    
+    console.log(props);
     const handleLogOut = () =>{
         Axios({
             method: "GET",
