@@ -4,15 +4,10 @@ import Register from "./routes/Register";
 import Login from "./routes/Login";
 import HomePage from "./routes/HomePage";
 import NotFound from "./routes/NotFound";
-<<<<<<< HEAD
 import TeamList from "./Components/Teams/TeamList";
 import Nav from "./Components/Navbar/Navbar"
 import CreateTeam from './Components/Teams/CreateTeam';
 import TeamInfo from './Components/Teams/Teaminfo';
-
-
-=======
->>>>>>> 9575e4b91ad13af95298ff0ed2b3df0dfb811a64
 import './App.css';
 import {toast} from 'react-toastify';
 

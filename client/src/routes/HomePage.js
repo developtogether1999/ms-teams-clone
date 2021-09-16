@@ -13,17 +13,10 @@ import Assignments from '../Components/Assignments/Assignments'
 import Teams from '../Components/Teams/Teams'
 
 const HomePage = (props) => {
-<<<<<<< HEAD
-    console.log(props);
-=======
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-
-
     
-
->>>>>>> 9575e4b91ad13af95298ff0ed2b3df0dfb811a64
     const handleLogOut = () =>{
         axios({
             method: "GET",
@@ -36,9 +29,7 @@ const HomePage = (props) => {
         });
     }
               
-
     useEffect ( () => {
-
 
         axios({
             method: "GET",
