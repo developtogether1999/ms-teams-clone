@@ -49,12 +49,7 @@ const HomePage = (props) => {
         <>
             <Router>
                 <Sidebar />
-                <Col md={{ span: 3, offset: 3 }}>
-                    <Button onClick={handleLogOut}>
-                        Log Out
-                    </Button>
-                </Col>
-                <div style={{marginTop: '35px'}}>
+                <div style={{marginTop: '57px'}}>
                 <Switch>
                     
                     <Route path='/chat'>
@@ -69,6 +64,11 @@ const HomePage = (props) => {
                     {/* <Route path='/' exact component={Teams} /> */}
                 </Switch>
                 </div>
+                <Col md={{ span: 3, offset: 3 }}>
+                    <Button onClick={handleLogOut}>
+                        Log Out
+                    </Button>
+                </Col>
             </Router>
         </>
      );
