@@ -13,14 +13,14 @@ toast.configure();
 function App() {
   return (
     <div className="App">
-       <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/auth/register" component={Register} />
-        <Route path="/auth/login" component={Login} />
-        <Route path="*"><NotFound /></Route>
-      </Switch>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/auth/register" component={Register} />
+          <Route path="/auth/login" component={Login} />
+          <Route path="/" component={HomePage} />
+          <Route path="*"><NotFound /></Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }

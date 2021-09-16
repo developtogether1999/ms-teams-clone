@@ -3,7 +3,12 @@ import axios from "axios";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import ChatPage from "../Components/ChatPage/ChatPage";
+import Sidebar from '../Components/Sidebar/Sidebar'
+import Assignments from '../Components/Assignments/Assignments'
+import Teams from '../Components/Teams/Teams'
 
 const HomePage = (props) => {
 
@@ -38,25 +43,33 @@ const HomePage = (props) => {
             }
         });
 
-    });
+    }, [username, password]);
 
     return ( 
         <>
+            <Router>
+                <Sidebar />
+                <Col md={{ span: 3, offset: 3 }}>
+                    <Button onClick={handleLogOut}>
+                        Log Out
+                    </Button>
+                </Col>
+                <div style={{marginTop: '35px'}}>
+                <Switch>
+                    
+                    <Route path='/chat'>
+                        { (username!='' && password!='')
+                            ? <ChatPage user={{username: username, password: password}} />
+                            : null 
+                        }
+                    </Route>
 
-            <h1>Welcome To MS Teams</h1>
-            <Col md={{ span: 3, offset: 3 }}>
-				
-                <Button onClick={handleLogOut}>
-                    Log Out
-                </Button>
-
-            </Col>
-            
-            { (username!='' && password!='')
-                ? <ChatPage user={{username: username, password: password}} />
-                : null 
-            }
-
+                    <Route path='/assignments' component={Assignments} />
+                    <Route path='/' component={Teams} />
+                    {/* <Route path='/' exact component={Teams} /> */}
+                </Switch>
+                </div>
+            </Router>
         </>
      );
 }

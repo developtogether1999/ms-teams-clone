@@ -5,6 +5,12 @@
       Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     letter-spacing: 0.5px;
   }
+
+  .chat-page {
+    margin-left: 50px;
+    height: 100%;
+    /* padding-bottom: 100px; */
+  }
   
   .ce-chat-list {
     background-color: rgb(240, 240, 240) !important;

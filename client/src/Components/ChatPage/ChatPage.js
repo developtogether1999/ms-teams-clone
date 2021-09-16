@@ -43,21 +43,18 @@ const ChatPage = (props) => {
   if (!user || user.username=='' || user.password=='') return "Loading..";
 
   return (
-    <div>
-      {/* <Header /> */}
-        <div>
-          {   (CHAT_ENGINE_PROJECT_ID != "")
-                ? <ChatEngine
-                    height="92vh"
-                    projectID={CHAT_ENGINE_PROJECT_ID}
-                    userName={user.username}
-                    userSecret={user.password}
-                    renderChatFeed = { (chatProps) => <ChatFeed {...chatProps}/> }
-                  />
-                : null
-          }
-        </div>
-    </div>
+      <div className="chat-page" >
+        {   (CHAT_ENGINE_PROJECT_ID != "")
+              ? <ChatEngine
+                  height="92vh"
+                  projectID={CHAT_ENGINE_PROJECT_ID}
+                  userName={user.username}
+                  userSecret={user.password}
+                  renderChatFeed = { (chatProps) => <ChatFeed {...chatProps}/> }
+                />
+              : null
+        }
+      </div>
   );
 };
 
