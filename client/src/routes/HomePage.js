@@ -3,12 +3,23 @@ import Axios from "axios";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
+import { useHistory } from "react-router";
+import { Link } from 'react-router-dom';
+import '../App.css';
 
+  
 
 
 
 const HomePage = (props) => {
-    
+const history = useHistory();
+
+const [blogs1, setBlogs1] = useState(null);
+const [blogs2, setBlogs2] = useState(null);
+const [flag1, setFlag1] = useState(true);
+const [flag2, setFlag2] = useState(true);
+
+
     const handleLogOut = () =>{
         Axios({
             method: "GET",
@@ -19,8 +30,12 @@ const HomePage = (props) => {
         });
     }
 
+
+ 
+
     return ( 
         <>
+
             <h1>Welcome To MS Teams</h1>
             <Col md={{ span: 3, offset: 3 }}>
 					
@@ -29,7 +44,12 @@ const HomePage = (props) => {
                 </Button>
 
             </Col>
-        </>
+          
+            <Button id="hb1" onClick={() => history.push("/Assignments", { from: "HomePage" })}>Assignments</Button>
+           
+                  
+      </>  
+        
      );
 }
 

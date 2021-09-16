@@ -2,11 +2,11 @@ const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const User = require('../models/user.models')
 const flash = require('express-flash')
-
+ 
 router.use(flash())
 
 ////When a new user tries to register to our website
-router.post("/register",  (req, res) => { 
+router.post("/register",  (req, res) => {  
     ////checking if another user with same username already exists
     console.log('req rec');
 	User.findOne({ username: req.body.username }, async (err, doc) => {
@@ -27,7 +27,7 @@ router.post("/register",  (req, res) => {
           		var redir = {  redirect: "/register", message:"Password cannot be empty"};
           		return res.json(redir);  
         	}
-
+        
         	////encryption of password using bcrypt
         	const hashedPassword = await bcrypt.hash(req.body.password, 10);
         	const newUser = new User({
