@@ -1,55 +1,79 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
-import { useHistory } from "react-router";
-import { Link } from 'react-router-dom';
 import '../App.css';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-  
-
-
+import ChatPage from "../Components/ChatPage/ChatPage";
+import Sidebar from '../Components/Sidebar/Sidebar'
+import Assignments from '../Components/Assignments/Assignments'
+import Teams from '../Components/Teams/Teams'
 
 const HomePage = (props) => {
-const history = useHistory();
 
-const [blogs1, setBlogs1] = useState(null);
-const [blogs2, setBlogs2] = useState(null);
-const [flag1, setFlag1] = useState(true);
-const [flag2, setFlag2] = useState(true);
-
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
     const handleLogOut = () =>{
-        Axios({
+        axios({
             method: "GET",
             withCredentials: true,
             url: "/logout",
         }).then((res) => {
+            setUsername("")
+            setPassword("")
             props.history.push(`/auth/login`);
         });
     }
+              
 
+    useEffect ( () => {
 
- 
+        axios({
+            method: "GET",
+            withCredentials: true,
+            url: "/login",
+        }).then((response) => {
+            if (response.data.redirect != '/') {
+                props.history.push(`/auth/login`);
+            } else {
+                console.log('response', response.data.user)
+                setUsername(response.data.user.username)
+                setPassword(response.data.user.password)
+            }
+        });
+
+    }, [username, password]);
 
     return ( 
         <>
+            <Router>
+                <Sidebar />
+                <div style={{marginTop: '57px'}}>
+                <Switch>
+                    
+                    <Route path='/chat'>
+                        { (username!='' && password!='')
+                            ? <ChatPage user={{username: username, password: password}} />
+                            : null 
+                        }
+                    </Route>
 
-            <h1>Welcome To MS Teams</h1>
-            <Col md={{ span: 3, offset: 3 }}>
-					
-                <Button onClick={handleLogOut}>
-                    Log Out
-                </Button>
+                    <Route path='/assignments' component={Assignments} />
+                    <Route path='/' component={Teams} />
+                    {/* <Route path='/' exact component={Teams} /> */}
+                </Switch>
+                </div>
+                <Col md={{ span: 3, offset: 3 }}>
+                    <Button onClick={handleLogOut}>
+                        Log Out
+                    </Button>
+                </Col>
+            </Router>
+        </>
 
-            </Col>
-          
-            <Button id="hb1" onClick={() => history.push("/Assignments", { from: "HomePage" })}>Assignments</Button>
-           
-                  
-      </>  
-        
      );
 }
 

@@ -1,4 +1,7 @@
 
+const res = require('dotenv').config()
+// console.log(res)
+
 const express = require("express");
 const http = require("http");
 const app = express();
@@ -22,7 +25,7 @@ const dbURI = "mongodb://localhost/ms-teams-database"
         mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
             .then(result => {
                 console.log("Mongoose Is Connected");
-                server.listen(process.env.PORT || 8000, () => console.log('server is running on port 8000'));
+                server.listen(process.env.PORT, () => console.log(`server is running on port ${process.env.PORT}`));
             })
             .catch(err => console.log(err));
         
@@ -61,6 +64,9 @@ app.use(registerRoute)
 
 const loginRoute = require('./routes/login')                        //Login route
 app.use(loginRoute)
+
+const chatRoute = require('./routes/chat')
+app.use(chatRoute)
 
 // const PORT = process.env.PORT
 // server.listen( PORT || 8000, () => {                                           //Server started locally on PORT (currently 3000)
