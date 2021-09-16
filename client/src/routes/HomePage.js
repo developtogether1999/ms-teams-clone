@@ -1,36 +1,90 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
 
+import '../App.css';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-
+import ChatPage from "../Components/ChatPage/ChatPage";
+import Sidebar from '../Components/Sidebar/Sidebar'
+import Assignments from '../Components/Assignments/Assignments'
+import Teams from '../Components/Teams/Teams'
 
 const HomePage = (props) => {
+<<<<<<< HEAD
     console.log(props);
+=======
+
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+
+
+    
+
+>>>>>>> 9575e4b91ad13af95298ff0ed2b3df0dfb811a64
     const handleLogOut = () =>{
-        Axios({
+        axios({
             method: "GET",
             withCredentials: true,
             url: "/logout",
         }).then((res) => {
+            setUsername("")
+            setPassword("")
             props.history.push(`/auth/login`);
         });
     }
+              
+
+    useEffect ( () => {
+
+
+        axios({
+            method: "GET",
+            withCredentials: true,
+            url: "/login",
+        }).then((response) => {
+            if (response.data.redirect != '/') {
+                props.history.push(`/auth/login`);
+            } else {
+                console.log('response', response.data.user)
+                setUsername(response.data.user.username)
+                setPassword(response.data.user.password)
+            }
+        });
+
+    }, [username, password]);
 
     return ( 
         <>
-            <h1>Welcome To MS Teams</h1>
-            <Col md={{ span: 3, offset: 3 }}>
-					
-                <Button onClick={handleLogOut}>
-                    Log Out
-                </Button>
+            <Router>
+                <Sidebar />
+                <div style={{marginTop: '57px'}}>
+                <Switch>
+                    
+                    <Route path='/chat'>
+                        { (username!='' && password!='')
+                            ? <ChatPage user={{username: username, password: password}} />
+                            : null 
+                        }
+                    </Route>
 
-            </Col>
+                    <Route path='/assignments' component={Assignments} />
+                    <Route path='/' component={Teams} />
+                    {/* <Route path='/' exact component={Teams} /> */}
+                </Switch>
+                </div>
+                <Col md={{ span: 3, offset: 3 }}>
+                    <Button onClick={handleLogOut}>
+                        Log Out
+                    </Button>
+                </Col>
+            </Router>
         </>
-     );
+    );
+
+
 }
 
 export default HomePage;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
+import axios from "axios";
 import {Link} from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast'
 import {Row, Form, Button, Col, Image} from 'react-bootstrap';
@@ -11,8 +11,6 @@ import {Row, Form, Button, Col, Image} from 'react-bootstrap';
 //// authMsg is the flash message which may be show if 
 //// user enters wrong user name or password
 
-
-
 const Login = (props) => {
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
@@ -23,11 +21,23 @@ const Login = (props) => {
 	const handleShowPassword = () =>{
 		setShowPassword(!showPassword);
 	}
+    
+    const handleLogOut = () =>{
+        axios({
+            method: "GET",
+            withCredentials: true,
+            url: "/logout",
+        }).then((res) => {
+            setLoginUsername("")
+            setLoginPassword("")
+            props.history.push(`/auth/login`);
+        });
+    }
 
     ////function to authenticate user from the server after he has entered the credentials,
     //// if he is authorized redirect him to home page , otherwise dsiplay the flash message
     const login = () => {
-        Axios({
+        axios({
             method: "POST",
             data: {
                 username: loginUsername,
@@ -51,7 +61,7 @@ const Login = (props) => {
     
     useEffect ( () => {
       
-        Axios({
+        axios({
             method: "GET",
             withCredentials: true,
             url: "/login",
@@ -60,7 +70,7 @@ const Login = (props) => {
             setShowAuthMsg(true);
             if (response.data.redirect == '/') {
                 props.history.push(`/`);
-            } 
+            }
         }); 
 
     }, []);

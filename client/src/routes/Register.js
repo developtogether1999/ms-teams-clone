@@ -1,6 +1,5 @@
- 
 import React, { useState , useEffect} from "react";
-import Axios from "axios";
+import axios from "axios";
 import {Link} from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast'
 import {Row, Form, Button, Col, Image} from 'react-bootstrap';
@@ -25,26 +24,50 @@ const Register = (props) => {
 
 	////function to register user from the server after he has entered the information
     //// if all the information is valid redirect him to login page else display the flash message
-  	const register = () => {
+	  	  
+	const register = () => {
 	    console.log('request rec',registerUsername,registerPassword);
-		Axios({
+
+		axios({
 			method: "POST",
 			data: {
-			username: registerUsername,
-			password: registerPassword,
+				username: registerUsername,
+				password: registerPassword,
 			},
 			withCredentials: true,
 			url: "/register",
-      	}).then(function (response) {
-        	setAuthMsg(response.data.message);
-        	setShowAuthMsg(true);
-        	if (response.data.redirect == '/') {
-            	props.history.push(`/`);
-        	} 
-			else if(response.data.redirect == '/login') {
-				props.history.push(`/auth/login`);
-			}
-     	});
+		})
+  		.then((response) => {
+			// console.log(response)
+			axios({
+				method: "POST",
+				data: {
+					username: response.data.user.username,
+					secret: response.data.user.password,
+				},
+				url: "https://api.chatengine.io/users/",
+				headers: {
+					'PRIVATE-KEY': response.data.CHAT_ENGINE_PRIVATE_KEY
+				},
+			})
+			.then(() => {
+				console.log('successfully registered in chat engine', response)
+				setAuthMsg(response.data.message);
+				setShowAuthMsg(true);
+				if (response.data.redirect == '/') {
+					props.history.push(`/`);
+				}
+				else if(response.data.redirect == '/login') {
+					props.history.push(`/auth/login`);
+				}
+			})
+			.catch((e) => {
+				console.log("error in chat engine register", e);
+			})
+     	})
+		.catch((e) => {
+			console.log("error in register", e);
+		})
   	};
    
   	////when a user requests for the register , we check if he is already logged in
@@ -52,7 +75,7 @@ const Register = (props) => {
     ////send the register page to let him register
   	useEffect ( () => {
       
-    	Axios({
+    	axios({
       		method: "GET",
       		withCredentials: true,
       		url: "/register",

@@ -10,15 +10,13 @@ router.post("/register",  (req, res) => {
     ////checking if another user with same username already exists
     console.log('req rec');
 	User.findOne({ username: req.body.username }, async (err, doc) => {
-		console.log('andar gaya',err);
       	if (err) throw err;
       	if (doc){ 
 	        var redir = {  redirect: "/register", message:"User Already Exists"};
         	return res.json(redir);
-    	} 
+    	}
       	if (!doc) {
         	////username and password is required during creation of an account
-			console.log('aur andar gaya');
         	if(req.body.username.length==0){
           		var redir = {  redirect: "/register", message:"Username cannot be empty"};
           		return res.json(redir);  
@@ -35,7 +33,7 @@ router.post("/register",  (req, res) => {
           		password: hashedPassword,
         	});
         	await newUser.save();
-        	var redir = { redirect: "/login", message:"User Created"};
+        	var redir = { redirect: "/login", message:"User Created", user: newUser, CHAT_ENGINE_PRIVATE_KEY: process.env.CHAT_ENGINE_PRIVATE_KEY};
         	return res.json(redir);
     	}
     });
@@ -52,6 +50,5 @@ router.get('/register', (req, res) => {
         return res.json(redir);
     }
 });
-
 
 module.exports = router
