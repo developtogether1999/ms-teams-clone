@@ -8,7 +8,7 @@ import TeamList from "./Components/Teams/TeamList";
 import Nav from "./Components/Navbar/Navbar"
 import CreateTeam from './Components/Teams/CreateTeam';
 import TeamInfo from './Components/Teams/Teaminfo';
-import './App.css';
+// import './App.css';
 import {toast} from 'react-toastify';
 
 toast.configure();
@@ -16,18 +16,15 @@ toast.configure();
 function App() {
   return (
     <div className="App">
-       <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/teams"  component={TeamList} />
-        <Route path="/navbar"  component={Nav} />
-        <Route path="/auth/register" component={Register} />
-        <Route path="/auth/login" component={Login} />
-        <Route path="/createteam" component={CreateTeam} />
-        <Route path="/teaminfo" component={TeamInfo} />
-        <Route path="*"><NotFound /></Route>
-      </Switch>
-    </BrowserRouter>
+     <BrowserRouter>
+        <Switch>
+          <Route path="/auth/register" component={Register} />
+          <Route path="/auth/login" component={Login} />
+          <Route path="/" component={HomePage} />
+      
+          <Route path="*"><NotFound /></Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }

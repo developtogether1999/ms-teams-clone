@@ -5,19 +5,19 @@ import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
 import TeamCard from './TeamCard'
 import Navbar from '../Navbar/Navbar.js'
-import './Teams.css';
+// import './Teams.css';
 const teams = ['Team1', 'Team2', 'Team3','Team4','Team5','Teams6']
 
 const TeamList = (props) => {
      console.log(props);
      const handleClick = () =>{
-          console.log('HIIII  ')
+          console.log('HIIII  ') 
           props.history.push(`/createteam`);
   }
     return ( 
         <>
-            <Navbar />
-            <h1 style={{marginTop: '10px'}}>Welcome to your Teams</h1>
+            {/* <Navbar /> */}
+            <h3 style={{marginTop:'67px',marginLeft:'80px'}}>Welcome to your Teams</h3>
             <div class='container'>
               <Button onClick={handleClick} style={{marginLeft:'889px',marginTop: '-90px',backgroundColor:'#FFFFFF',color:'#252423'}}>Join Or Create Team</Button>
               <div class='row'>

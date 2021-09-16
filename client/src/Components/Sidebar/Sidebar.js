@@ -11,12 +11,7 @@ const Sidebar = () => {
   return (
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
-        <div className='navbar'>
-          <Link to="#" className="menu-bars">
-            <img src={logo} />
-          </Link>
-          PB
-        </div>
+        
         <nav className='nav-menu active' >
           <ul className='nav-menu-items'>
             {SidebarData.map((item, index) => {

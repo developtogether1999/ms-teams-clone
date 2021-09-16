@@ -65,13 +65,11 @@ app.use(registerRoute)
 const loginRoute = require('./routes/login')                        //Login route
 app.use(loginRoute)
 
-<<<<<<< HEAD
 const createTeamRoute = require('./routes/createTeam')                        //Login route
 app.use(createTeamRoute)
-=======
+
 const chatRoute = require('./routes/chat')
 app.use(chatRoute)
->>>>>>> 9575e4b91ad13af95298ff0ed2b3df0dfb811a64
 
 // const PORT = process.env.PORT
 // server.listen( PORT || 8000, () => {                                           //Server started locally on PORT (currently 3000)

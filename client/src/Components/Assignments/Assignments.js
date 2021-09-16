@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button'
 import PendingBlogList from "./PendingBlogList";
-import './Assignments.css';
+// import './Assignments.css';
 import data from './data';
 import CompletedBlogList from "./CompletedBloglist";
 import 'react-toastify/dist/ReactToastify.css';

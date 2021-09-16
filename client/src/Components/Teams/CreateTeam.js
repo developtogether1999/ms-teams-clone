@@ -16,10 +16,11 @@ const CreateTeam= (props) => {
     const handleShow = () => setShow(true);
     return ( 
         <>
-                    <Navv />
+                    {/* <Navv /> */}
                     
-
+                    <div style={{marginTop:'67px',marginLeft:'80px'}}>
                     <h3 style={{marginBottom: '80px'}}> Join Or Create Team</h3>
+                    </div>
                     <div class='container'>
                         <div class='row'>
                             <div class='col'>

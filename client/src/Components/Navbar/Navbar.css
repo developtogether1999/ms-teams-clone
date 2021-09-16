@@ -4,3 +4,12 @@
 .title{
     color: #ffff
 }
+.menu-bars {
+    width: 50px;
+    padding-top: 5px;
+    background: none;
+}
+
+.menu-bars img {
+    height: 30px;
+}

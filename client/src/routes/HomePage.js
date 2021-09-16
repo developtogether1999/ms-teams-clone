@@ -4,13 +4,15 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
 
-import '../App.css';
+// import '../App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import ChatPage from "../Components/ChatPage/ChatPage";
 import Sidebar from '../Components/Sidebar/Sidebar'
 import Assignments from '../Components/Assignments/Assignments'
-import Teams from '../Components/Teams/Teams'
+import Teams from '../Components/Teams/TeamList'
+import CreateTeam from '../Components/Teams/CreateTeam'
+import Navbar from '../Components/Navbar/Navbar'
 
 const HomePage = (props) => {
 
@@ -50,6 +52,7 @@ const HomePage = (props) => {
     return ( 
         <>
             <Router>
+                <Navbar />
                 <Sidebar />
                 <div style={{marginTop: '57px'}}>
                 <Switch>
@@ -62,15 +65,11 @@ const HomePage = (props) => {
                     </Route>
 
                     <Route path='/assignments' component={Assignments} />
+                    <Route path='/createteam' component={CreateTeam} />
                     <Route path='/' component={Teams} />
                     {/* <Route path='/' exact component={Teams} /> */}
                 </Switch>
                 </div>
-                <Col md={{ span: 3, offset: 3 }}>
-                    <Button onClick={handleLogOut}>
-                        Log Out
-                    </Button>
-                </Col>
             </Router>
         </>
     );
