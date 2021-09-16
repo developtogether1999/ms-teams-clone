@@ -45,6 +45,7 @@ const Login = (props) => {
             },
             withCredentials: true,
             url: "/login",
+<<<<<<< HEAD
         }).then((response) => {
 
             const authObject =  { 'Project-ID': response.data.CHAT_ENGINE_PROJECT_ID,
@@ -69,6 +70,15 @@ const Login = (props) => {
         .catch((err) => {
             console.log('err', err);
         })
+=======
+        }).then(function (response) {
+            setAuthMsg(response.data.message);
+            setShowAuthMsg(true);
+            if (response.data.redirect == '/') {
+                props.history.push(`/`);
+            } 
+        });
+>>>>>>> parent of 1c3ef04 (assignments feature added)
     };
 
 
