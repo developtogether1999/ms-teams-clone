@@ -15,6 +15,7 @@ const Info= (props) => {
             url: "/logout",
         }).then((res) => {
             props.history.push(`/auth/login`);
+            window.location.reload()
         });
     }
     return ( 

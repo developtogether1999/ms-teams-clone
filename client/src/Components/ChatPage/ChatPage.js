@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { ChatEngine } from "react-chat-engine";
+import { ChatEngine, getOrCreateChat } from "react-chat-engine";
 // import Header from "../UI/Header/Header";
 import "./ChatPage.css";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ const ChatPage = (props) => {
   console.log(props);
 
   const [CHAT_ENGINE_PROJECT_ID, setCHAT_ENGINE_PROJECT_ID] = useState("");
+  const [username, setUsername] = useState('')
 
   useEffect(() => {
     
@@ -40,6 +41,31 @@ const ChatPage = (props) => {
     }
   }, [user, history]);
 
+  const createDirectChat = (creds) => {
+		getOrCreateChat(
+			creds,
+			{ is_direct_chat: true, usernames: [username] },
+			() => setUsername('')
+		)
+	}
+
+
+  const renderChatForm = (creds) => {
+		return (
+			<div>
+				<input 
+					placeholder='Username' 
+					value={username} 
+					onChange={(e) => setUsername(e.target.value)} 
+				/>
+				<button onClick={() => createDirectChat(creds)}>
+					Create
+				</button>
+			</div>
+		)
+	}
+
+
   if (!user || user.username=='' || user.password=='') return "Loading..";
 
   return (
@@ -51,6 +77,7 @@ const ChatPage = (props) => {
                   userName={user.username}
                   userSecret={user.password}
                   renderChatFeed = { (chatProps) => <ChatFeed {...chatProps}/> }
+                  renderNewChatForm={(creds) => renderChatForm(creds)}
                 />
               : null
         }

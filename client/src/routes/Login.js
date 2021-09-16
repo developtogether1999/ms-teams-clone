@@ -49,7 +49,7 @@ const Login = (props) => {
             setAuthMsg(response.data.message);
             setShowAuthMsg(true);
             if (response.data.redirect == '/') {
-                props.history.push(`/teams`);
+                props.history.push(`/`);
             } 
         });
     };
