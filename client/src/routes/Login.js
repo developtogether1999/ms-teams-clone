@@ -45,32 +45,6 @@ const Login = (props) => {
             },
             withCredentials: true,
             url: "/login",
-<<<<<<< HEAD
-        }).then((response) => {
-
-            const authObject =  { 'Project-ID': response.data.CHAT_ENGINE_PROJECT_ID,
-                                    'User-Name': response.data.user.username, 
-                                    'User-Secret': response.data.user.password 
-                                };
-            
-            axios
-                .get('https://api.chatengine.io/chats', { headers: authObject })
-                .then(() => {
-                    setAuthMsg(response.data.message);
-                    setShowAuthMsg(true);
-                    if (response.data.redirect == '/') {
-                        props.history.push(`/`);
-                    }
-                })
-                .catch((err) => {
-                    console.log('err', err);
-                    handleLogOut();
-                })
-        })
-        .catch((err) => {
-            console.log('err', err);
-        })
-=======
         }).then(function (response) {
             setAuthMsg(response.data.message);
             setShowAuthMsg(true);
@@ -78,7 +52,6 @@ const Login = (props) => {
                 props.history.push(`/`);
             } 
         });
->>>>>>> parent of 1c3ef04 (assignments feature added)
     };
 
 

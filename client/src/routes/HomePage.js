@@ -3,7 +3,7 @@ import axios from "axios";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
-<<<<<<< HEAD
+
 import '../App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -17,14 +17,9 @@ const HomePage = (props) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
-=======
 
-
-
-
-const HomePage = (props) => {
     
->>>>>>> parent of 1c3ef04 (assignments feature added)
+
     const handleLogOut = () =>{
         axios({
             method: "GET",
@@ -40,7 +35,7 @@ const HomePage = (props) => {
 
     useEffect ( () => {
 
-<<<<<<< HEAD
+
         axios({
             method: "GET",
             withCredentials: true,
@@ -83,21 +78,9 @@ const HomePage = (props) => {
                 </Col>
             </Router>
         </>
+    );
 
-=======
-    return ( 
-        <>
-            <h1>Welcome To MS Teams</h1>
-            <Col md={{ span: 3, offset: 3 }}>
-					
-                <Button onClick={handleLogOut}>
-                    Log Out
-                </Button>
 
-            </Col>
-        </>
->>>>>>> parent of 1c3ef04 (assignments feature added)
-     );
 }
 
 export default HomePage;
