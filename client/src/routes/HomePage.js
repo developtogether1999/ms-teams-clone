@@ -12,6 +12,7 @@ import Sidebar from '../Components/Sidebar/Sidebar'
 import Assignments from '../Components/Assignments/Assignments'
 import Teams from '../Components/Teams/TeamList'
 import CreateTeam from '../Components/Teams/CreateTeam'
+import InsideTeam from '../Components/Teams/InsideTeam'
 import Navbar from '../Components/Navbar/Navbar'
 
 const HomePage = (props) => {
@@ -64,8 +65,11 @@ const HomePage = (props) => {
                         }
                     </Route>
 
-                    <Route path='/assignments' component={Assignments} />
+                    <Route path='/assignments' component={Assignments}  />
                     <Route path='/createteam' component={CreateTeam} />
+                    <Route path='/insideteam/:id'>
+                        <InsideTeam user={{username: username, password: password}} />
+                    </Route>
                     <Route path='/' component={Teams} />
                     {/* <Route path='/' exact component={Teams} /> */}
                 </Switch>

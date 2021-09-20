@@ -31,7 +31,7 @@ router.get('/login', async (req, res) => {
 		const user = await User.findOne({
 			username: req.user.username
 		})
-		console.log("login user", user)
+		//console.log("login user", user)
         var redir = { redirect: "/" , message:'Already Logged In', userName:req.user.username , user: user};
         return res.json(redir);
     }

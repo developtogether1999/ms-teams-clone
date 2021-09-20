@@ -7,7 +7,7 @@ import {OverlayTrigger,Popover,PopoverHeader,Dropdown,SplitButton,DropdownButton
 // import PopoverHeader from 'react-bootstrap/PopoverHeader'
 
 
-const infobutton= (props) => {
+const InfoButton= (props) => {
     // console.log('TeamCard',props.teamname)
     // const handleLogOut = () =>{
     //     Axios({
@@ -52,4 +52,4 @@ const infobutton= (props) => {
      );
 }
 
-export default infobutton;
+export default InfoButton;

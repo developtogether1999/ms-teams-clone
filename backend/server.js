@@ -68,8 +68,23 @@ app.use(loginRoute)
 const createTeamRoute = require('./routes/createTeam')                        //Login route
 app.use(createTeamRoute)
 
+const getTeamRoute = require('./routes/getteams')                        //Login route
+app.use(getTeamRoute)
+
 const chatRoute = require('./routes/chat')
 app.use(chatRoute)
+
+const joinTeam = require('./routes/jointeam')
+app.use(joinTeam)
+
+const getTeams = require('./routes/getTeams')
+app.use(getTeams)
+
+const getOwner = require('./routes/getOwner')
+app.use(getOwner)
+
+const createChannel = require('./routes/createChannel')
+app.use(createChannel)
 
 // const PORT = process.env.PORT
 // server.listen( PORT || 8000, () => {                                           //Server started locally on PORT (currently 3000)

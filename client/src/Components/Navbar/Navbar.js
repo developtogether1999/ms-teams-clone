@@ -4,7 +4,7 @@ import {Navbar,Container,Button,Form,FormControl,Row,  Col, Image, Nav, NavItem,
 // import TeamCard from './TeamCard'
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import  Infobutton from '../Teams/infobutton'
+import  Infobutton from '../Teams/InfoButton'
 import logo from '../Sidebar/logo.jpg';
 // const teams = ['Team1', 'Team2', 'Team3','Team4','Team5']
 

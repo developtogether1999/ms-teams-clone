@@ -10,9 +10,27 @@ import Navv from '../Navbar/Navbar'
 
 
 const TeamInfo= (props) => {
-
     const [registerTeamname, setRegisterTeamname] = useState("");
   	const [registerTeamcode, setRegisterTeamcode] = useState("");
+      const [username, setUsername] = useState("")
+
+      useEffect ( () => {
+
+        Axios({
+            method: "GET",
+            withCredentials: true,
+            url: "/login",
+        }).then((response) => {
+            if (response.data.redirect != '/') {
+                props.history.push(`/auth/login`);
+            } else {
+                setUsername(response.data.user.username)
+            }
+        });
+
+    }, []);
+
+
 
 
    const create = () => { 
@@ -20,6 +38,8 @@ const TeamInfo= (props) => {
     Axios({
         method: "POST",
         data: {
+        isowner: true,
+        user: username,
         teamname: registerTeamname,
         teamcode: registerTeamcode
         },

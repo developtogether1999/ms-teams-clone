@@ -6,7 +6,7 @@ const user = new mongoose.Schema({
     password: {
         type: String
     },
-    subjects: {
+    teams: {
         type: [ String ] 
     }
 });
