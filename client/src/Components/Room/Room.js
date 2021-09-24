@@ -46,6 +46,8 @@ const Room = (props) => {
     const myVideo = useRef();
     const peersRef = useRef([]);
 
+    let peerKey = {}
+
 	useEffect(() => {
 
         axios({
@@ -98,8 +100,11 @@ const Room = (props) => {
 
                         socket.on("receiving returned signal", payload => {
                             const item = peersRef.current.find(p => p.peerId === payload.id);
-                            console.log('receiving returned signal', payload.signal);
                             item.peer.signal(payload.signal);
+                        })
+
+                        socket.on('user left', (payload) => {
+                            setPeers(peers.filter(peer => peer.peerId !== payload.peerId))
                         })
 
                     })
@@ -153,7 +158,6 @@ const Room = (props) => {
             socket.emit("returning signal", { signal, callerId });
         })
         ////user already in room accepts incoming signal from new user
-        console.log('incoming signal', incomingSignal);
         peer.signal(incomingSignal);
 
         return peer;
@@ -161,8 +165,9 @@ const Room = (props) => {
 
 	const leaveCall = () => {
         console.log('leaving call', currentUser, socket.id);
-        // stream.getTracks().forEach(function(track) { track.stop(); })
-        // history.goBack();
+        socket.emit("endCall");
+        myVideo.current.srcObject.getTracks().forEach(function(track) { track.stop(); })
+        history.goBack();
 	}
 
     const muteUnmute = () => {
@@ -179,7 +184,6 @@ const Room = (props) => {
     }
 
     const playStop = () => {
-        console.log('playStop')
         let myVideoStream = myVideo.current.srcObject;
         const enabled = myVideoStream.getVideoTracks()[0].enabled;
         if (enabled) {
@@ -200,6 +204,7 @@ const Room = (props) => {
                         {<video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
                     </div>
                     {peers.map((peer, index) => {
+                        peerKey[peer.peerId] = index;
                         return (
                             <Video key={index} peer={peer} />
                         );

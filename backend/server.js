@@ -66,7 +66,7 @@ app.use(loginRoute)
 const createTeamRoute = require('./routes/createTeam')                        //Login route
 app.use(createTeamRoute)
 
-const chatRoute = require('./routes/chat')
+const chatRoute = require('./routes/chat');
 app.use(chatRoute)
 
 const onlineUsers = {};
@@ -130,8 +130,6 @@ io.on("connection", (socket) => {
 	socket.on("callUser", (data) => {
 		const userToCall = data.userToCall
 		if(socketIdOf[userToCall] && onlineUsers[data.from]) {
-			console.log('userToCall',userToCall)
-			console.log('socket-id of userToCall',socketIdOf[userToCall])
 			io.to(socketIdOf[userToCall]).emit("receivingCall", { from: data.from, name: onlineUsers[data.from], roomId: data.roomId })
 		}
 	})
@@ -142,6 +140,11 @@ io.on("connection", (socket) => {
 
 	socket.on("rejectCall", (data) => {
 		io.to(data.to).emit("callRejected")
+	})
+
+	socket.on("endCall", () => {
+		const roomId = socketToRoom[socket.id]
+		io.to(roomId).emit('user left', { peerId: socket.id });
 	})
 
 })
