@@ -10,6 +10,7 @@ import CreateTeam from './Components/Teams/CreateTeam';
 import TeamInfo from './Components/Teams/Teaminfo';
 // import './App.css';
 import {toast} from 'react-toastify';
+import {SocketContext, socket} from './Contexts/socket';
 
 toast.configure();
 
@@ -20,8 +21,13 @@ function App() {
         <Switch>
           <Route path="/auth/register" component={Register} />
           <Route path="/auth/login" component={Login} />
-          <Route path="/" component={HomePage} />
-      
+          
+          <Route path="/">
+            <SocketContext.Provider value={socket}>
+                <HomePage />
+            </SocketContext.Provider>
+          </Route>
+          
           <Route path="*"><NotFound /></Route>
         </Switch>
       </BrowserRouter>

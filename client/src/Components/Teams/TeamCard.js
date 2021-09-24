@@ -8,7 +8,7 @@ import {Card,Row,  Col, Image} from 'react-bootstrap';
 
 
 const TeamCard = (props) => {
-    console.log('TeamCard',props.teamname)
+
     // const handleLogOut = () =>{
     //     Axios({
     //         method: "GET",

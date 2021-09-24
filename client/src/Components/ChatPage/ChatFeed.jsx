@@ -6,13 +6,38 @@ import MyMessage from './MyMessage';
 import TheirMessage from './TheirMessage';
 import MessageForm from './MessageForm';
 
+import { IoCall } from 'react-icons/io5'
+
+import { v1 as uuid } from "uuid"
+
+import { useHistory } from 'react-router-dom';
+
 const ChatFeed = (props) => {
 
     // console.log(props);
 
     const { chats, activeChat, userName, messages } = props;
 
+    let history = useHistory();
+
     const chat = chats && chats[activeChat];
+
+    const handleOnClick = () => {
+        let callInitially = [];
+        chat.people.forEach(person => {
+            if(person.person.username != userName) {
+                callInitially.push(person.person.username);
+            }
+        });
+        const roomId = uuid();
+		// history.push(`/room/${roomId}`);
+        history.push({
+            pathname: `/room/${roomId}`,
+            state: {
+                callInitially: callInitially
+            }
+        });
+    }
 
     const renderReadReceipts = (message, isMyMessage) => {
         return chat.people.map((person, index) => person.last_read === message.id && (
@@ -57,7 +82,11 @@ const ChatFeed = (props) => {
     return (
         <div className="chat-feed">
             <div className="chat-title-container">
-                <div className="chat-title">{chat.title}</div>
+                <div className="chat-title">
+                    {chat.title}
+                    <hr />
+                    <button onClick={handleOnClick}><IoCall /></button>
+                </div>
                 <div className="chat-subtitle">
                     {chat.people.map((person) => ` ${person.person.username}`)}
                 </div>

@@ -9,9 +9,9 @@ import Navbar from '../Navbar/Navbar.js'
 const teams = ['Team1', 'Team2', 'Team3','Team4','Team5','Teams6']
 
 const TeamList = (props) => {
-     console.log(props);
+    //  console.log(props);
      const handleClick = () =>{
-          console.log('HIIII  ') 
+          // console.log('HIIII  ') 
           props.history.push(`/createteam`);
   }
     return ( 
@@ -21,24 +21,20 @@ const TeamList = (props) => {
             <div class='container'>
               <Button onClick={handleClick} style={{marginLeft:'889px',marginTop: '-90px',backgroundColor:'#FFFFFF',color:'#252423'}}>Join Or Create Team</Button>
               <div class='row'>
-            { teams && teams.map(team => {
-        // console.log(question)
-        if(team) {
-          return (
-            <div class='col' style={{ marginTop: '1rem'}}>
-                          
-                         <TeamCard teamname={team} />
-                         
-                  </div>                        
-
-          )
-        } else { 
-          return null
-        }
-        
-      })}
-        </div>
+                { teams && teams.map(team => {
+                  if(team) {
+                    return (
+                      <div class='col' style={{ marginTop: '1rem'}}>
+                        <TeamCard teamname={team} />
+                      </div>
+                    )
+                  } else { 
+                    return null
+                  }
+                  }
+                )}
               </div>
+            </div>
         </>
      );
 }
