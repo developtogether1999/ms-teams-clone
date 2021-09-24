@@ -2,6 +2,10 @@ import Button from "@material-ui/core/Button"
 import React, { useContext, useEffect, useRef, useState } from "react"
 import Peer from 'simple-peer'
 import axios from 'axios'
+import { FiMic } from 'react-icons/fi'
+import { FiMicOff } from 'react-icons/fi'
+import { FiVideo } from 'react-icons/fi'
+import { FiVideoOff } from 'react-icons/fi'
 
 import { SocketContext } from "../../Contexts/socket"
 
@@ -35,7 +39,9 @@ const Room = (props) => {
     const socket = useContext(SocketContext);
 
 	const [ currentUser, setCurrentUser ] = useState("")
-    const [peers, setPeers] = useState([]);
+    const [ peers, setPeers ] = useState([]);
+    const [ audioButton, setAudioButton ] = useState(true);
+    const [ videoButton, setVideoButton ] = useState(true);
 	
     const myVideo = useRef();
     const peersRef = useRef([]);
@@ -159,6 +165,33 @@ const Room = (props) => {
         // history.goBack();
 	}
 
+    const muteUnmute = () => {
+        let myVideoStream = myVideo.current.srcObject;
+        const enabled = myVideoStream.getAudioTracks()[0].enabled;
+        if (enabled) {
+          myVideoStream.getAudioTracks()[0].enabled = false;
+          setAudioButton(false);
+        } else {
+          myVideoStream.getAudioTracks()[0].enabled = true;
+          setAudioButton(true);
+        }
+        myVideo.current.srcObject = myVideoStream;
+    }
+
+    const playStop = () => {
+        console.log('playStop')
+        let myVideoStream = myVideo.current.srcObject;
+        const enabled = myVideoStream.getVideoTracks()[0].enabled;
+        if (enabled) {
+            myVideoStream.getVideoTracks()[0].enabled = false;
+            setVideoButton(false);
+        } else {
+            myVideoStream.getVideoTracks()[0].enabled = true;
+            setVideoButton(true);
+        }
+        myVideo.current.srcObject = myVideoStream;
+    }
+
 	return (
 		<>
             <div className="container">
@@ -171,10 +204,18 @@ const Room = (props) => {
                             <Video key={index} peer={peer} />
                         );
                     })}
+                    {audioButton
+                        ? <Button onClick={muteUnmute}><FiMic /></Button>
+                        : <Button onClick={muteUnmute}><FiMicOff /></Button>
+                    }
+                    {videoButton
+                        ? <Button onClick={playStop}> <FiVideo /> </Button>
+                        : <Button onClick={playStop}> <FiVideoOff /> </Button>
+                    }
+                    <Button variant="contained" color="secondary" onClick={leaveCall}>
+                        End Call
+                    </Button>
                 </div>
-                <Button variant="contained" color="secondary" onClick={leaveCall}>
-                    End Call
-                </Button>
             </div>
 		</>
 	)
