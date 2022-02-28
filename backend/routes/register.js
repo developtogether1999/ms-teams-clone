@@ -8,7 +8,7 @@ router.use(flash())
 ////When a new user tries to register to our website
 router.post("/register",  (req, res) => { 
     ////checking if another user with same username already exists
-    console.log('req rec');
+    // console.log('req rec');
 	User.findOne({ username: req.body.username }, async (err, doc) => {
       	if (err) throw err;
       	if (doc){ 

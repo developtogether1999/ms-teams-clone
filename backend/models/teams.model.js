@@ -11,6 +11,9 @@ const teamschema = new mongoose.Schema({
     },
     participants: {
         type: [ String ] 
+    },
+    channels: {
+        type: [ String ] 
     }
 });
 

@@ -3,26 +3,31 @@ import Axios from "axios";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import {Card,Row,  Col, Image} from 'react-bootstrap';
-
+import { withRouter } from "react-router";
 
 
 
 const TeamCard = (props) => {
 
+    const handleClick = () => {
+        console.log('HIIII  ') 
+        props.history.push(`/insideteam/${props.teamid}`);
+}
+    console.log('TeamCard',props)
     // const handleLogOut = () =>{
     //     Axios({
     //         method: "GET",
     //         withCredentials: true,
     //         url: "/logout",
-    //     }).then((res) => {
+    //     }).then((res) => { 
     //         props.history.push(`/auth/login`);
     //     });
-    // }
+    // } 
 
     return ( 
         <>
             {/* <div><h1>HI</h1></div> */}
-            <Button variant="outline-primary" style={{padding:'0rem'}}>
+            <Button onClick={handleClick} variant="outline-primary" style={{padding:'0rem'}}>
             <Card style={{ width: '13rem' , height: '10rem'}}>
              <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
@@ -39,4 +44,4 @@ const TeamCard = (props) => {
      );
 }
 
-export default TeamCard;
+export default withRouter(TeamCard);
