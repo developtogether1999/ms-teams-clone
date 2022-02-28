@@ -47,10 +47,10 @@ const IncomingCall = (props) => {
     }
 
     if(!receivingCall || caller == "" || name == "" || roomId == "") { 
-        console.log('receivingCall', receivingCall);
-        console.log('caller', caller);
-        console.log('name', name);
-        console.log('roomId', roomId);
+        // console.log('receivingCall', receivingCall);
+        // console.log('caller', caller);
+        // console.log('name', name);
+        // console.log('roomId', roomId);
         return (
             <div>
                 No calls
@@ -61,7 +61,7 @@ const IncomingCall = (props) => {
 	return (
 		<>
 			<div className="caller">
-                <h1 >{name} is calling...{console.log('component mounted')}</h1>
+                <h1 >{name} is calling...</h1>
                 <Button variant="contained" color="primary" onClick={handleCallAccepted}>
                     Answer
                 </Button>

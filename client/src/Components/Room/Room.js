@@ -6,6 +6,8 @@ import { FiMic } from 'react-icons/fi'
 import { FiMicOff } from 'react-icons/fi'
 import { FiVideo } from 'react-icons/fi'
 import { FiVideoOff } from 'react-icons/fi'
+import { MdScreenShare } from 'react-icons/md'
+import { MdStopScreenShare } from 'react-icons/md'
 
 import { SocketContext } from "../../Contexts/socket"
 
@@ -42,6 +44,7 @@ const Room = (props) => {
     const [ peers, setPeers ] = useState([]);
     const [ audioButton, setAudioButton ] = useState(true);
     const [ videoButton, setVideoButton ] = useState(true);
+    const [shareScreen, setShareScreen] = useState(false);
 	
     const myVideo = useRef();
     const peersRef = useRef([]);
@@ -62,6 +65,7 @@ const Room = (props) => {
                 setCurrentUser(response.data.user.username);
 
                 await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                // await getVideoAudioStream()
                     .then((stream) => {
 
                         myVideo.current.srcObject = stream
@@ -115,6 +119,25 @@ const Room = (props) => {
         })
 
     }, [])
+
+    const getVideoAudioStream = (video=true, audio=true) => {
+        // let quality = settings?.params?.quality;
+        // if (quality) quality = parseInt(quality);
+        let quality = 12;
+        const myNavigator = navigator.mediaDevices.getUserMedia || 
+                            navigator.mediaDevices.webkitGetUserMedia || 
+                            navigator.mediaDevices.mozGetUserMedia || 
+                            navigator.mediaDevices.msGetUserMedia;
+        return myNavigator({
+            video: video ? {
+                frameRate: quality ? quality : 12,
+                noiseSuppression: true,
+                width: {min: 640, ideal: 1280, max: 1920},
+                height: {min: 480, ideal: 720, max: 1080}
+            } : false,
+            audio: audio,
+        });
+    }
 
     const callUsers = (usersToCall) => {
         
@@ -170,31 +193,94 @@ const Room = (props) => {
         history.goBack();
 	}
 
-    const muteUnmute = () => {
+    const muteUnmute = (type='toggle') => {
         let myVideoStream = myVideo.current.srcObject;
         const enabled = myVideoStream.getAudioTracks()[0].enabled;
-        if (enabled) {
-          myVideoStream.getAudioTracks()[0].enabled = false;
-          setAudioButton(false);
-        } else {
-          myVideoStream.getAudioTracks()[0].enabled = true;
-          setAudioButton(true);
+        if ((type === 'toggle' || type === 'mute') && enabled) {
+            myVideoStream.getAudioTracks()[0].enabled = false;
+            setAudioButton(false);
+        } else if((type === 'toggle' || type === 'unmute') && !enabled) {
+            myVideoStream.getAudioTracks()[0].enabled = true;
+            setAudioButton(true);
         }
         myVideo.current.srcObject = myVideoStream;
     }
 
-    const playStop = () => {
+    const playStop = (type='toggle') => {
         let myVideoStream = myVideo.current.srcObject;
         const enabled = myVideoStream.getVideoTracks()[0].enabled;
-        if (enabled) {
+        console.log(type, enabled);
+        if ((type === 'toggle' || type === 'stop') && enabled) {
+            console.log('video off');
             myVideoStream.getVideoTracks()[0].enabled = false;
             setVideoButton(false);
-        } else {
+        } else if((type === 'toggle' || type === 'play') && !enabled) {
+            console.log('video on');
             myVideoStream.getVideoTracks()[0].enabled = true;
             setVideoButton(true);
         }
         myVideo.current.srcObject = myVideoStream;
     }
+
+    const reInitializeStream = (video, audio, type='userMedia') => {
+        const media = type === 'userMedia' ? getVideoAudioStream(video, audio) : navigator.mediaDevices.getDisplayMedia();
+        return new Promise((resolve) => {
+            media.then((stream) => {
+                if (type === 'displayMedia') {
+                    playStop('stop')
+                    muteUnmute('mute')
+                }
+                // createVideo({ id: myID, stream });
+                // replaceStream(stream);
+                myVideo.current.srcObject = stream
+                resolve(true);
+            });
+        });
+    }
+
+    // const toggleVideoTrack = (status) => {
+    //     if (myVideo?.current && !status.video) {
+    //         myVideo.current.srcObject?.getVideoTracks().forEach((track) => {
+    //             if (track.kind === 'video') {
+    //                 !status.video && track.stop();
+    //             }
+    //         });
+    //     }
+    //     else if (myVideo) {
+    //         reInitializeStream(status.video, status.audio);
+    //     }
+    // }
+
+    const toggleScreenShare = async () => {
+        if(!shareScreen) {
+            await reInitializeStream(false, false, 'displayMedia')
+            .then(() => {
+                setShareScreen(!shareScreen)
+            });
+        } else {
+            reInitializeStream(false, false, 'userMedia')
+            .then(() => {
+                setShareScreen(!shareScreen)
+            });
+        }
+    }
+    
+    // const replaceStream = (mediaStream) => {
+    //     Object.values(peers).map((peer) => {
+    //         peer.peerConnection?.getSenders().map((sender) => {
+    //             if(sender.track.kind == "audio") {
+    //                 if(mediaStream.getAudioTracks().length > 0){
+    //                     sender.replaceTrack(mediaStream.getAudioTracks()[0]);
+    //                 }
+    //             }
+    //             if(sender.track.kind == "video") {
+    //                 if(mediaStream.getVideoTracks().length > 0){
+    //                     sender.replaceTrack(mediaStream.getVideoTracks()[0]);
+    //                 }
+    //             }
+    //         });
+    //     })
+    // }
 
 	return (
 		<>
@@ -209,14 +295,19 @@ const Room = (props) => {
                             <Video key={index} peer={peer} />
                         );
                     })}
-                    {audioButton
-                        ? <Button onClick={muteUnmute}><FiMic /></Button>
-                        : <Button onClick={muteUnmute}><FiMicOff /></Button>
-                    }
-                    {videoButton
-                        ? <Button onClick={playStop}> <FiVideo /> </Button>
-                        : <Button onClick={playStop}> <FiVideoOff /> </Button>
-                    }
+                    <div>
+                        {audioButton
+                            ? <Button onClick={() => muteUnmute('toggle')}><FiMic /></Button>
+                            : <Button onClick={() => muteUnmute('toggle')}><FiMicOff /></Button>
+                        }
+                        {videoButton
+                            ? <Button onClick={() => playStop('toggle')}> <FiVideo /> </Button>
+                            : <Button onClick={() => playStop('toggle')}> <FiVideoOff /> </Button>
+                        }
+                        {/* <Button onClick={toggleScreenShare} >
+                        {(!shareScreen) ? <MdScreenShare /> : <MdStopScreenShare /> }
+                        </Button> */}
+                    </div>
                     <Button variant="contained" color="secondary" onClick={leaveCall}>
                         End Call
                     </Button>

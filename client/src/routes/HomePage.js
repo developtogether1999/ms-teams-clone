@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import {Row,  Col, Image} from 'react-bootstrap';
 
 // import '../App.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom";
 
 import ChatPage from "../Components/ChatPage/ChatPage";
 import Sidebar from '../Components/Sidebar/Sidebar'
@@ -21,9 +21,12 @@ import IncomingCall from "../Components/Room/IncomingCall";
 const HomePage = (props) => {
 
     const socket = useContext(SocketContext);
+    const history = useHistory();
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+
+    console.log(props);
     
     const handleLogOut = () =>{
         axios({
@@ -45,7 +48,7 @@ const HomePage = (props) => {
             url: "/login",
         }).then((response) => {
             if (response.data.redirect != '/') {
-                props.history.push(`/auth/login`);
+                history.push(`/auth/login`);
             } else {
                 setUsername(response.data.user.username)
                 setPassword(response.data.user.password)
@@ -59,7 +62,7 @@ const HomePage = (props) => {
 
     return ( 
         <>
-            <Router>
+            <BrowserRouter>
                 <Navbar />
                 <Sidebar />
                 <div style={{marginTop: '57px'}}>
@@ -83,7 +86,7 @@ const HomePage = (props) => {
                 <IncomingCall />
 
                 </div>
-            </Router>
+            </BrowserRouter>
         </>
     );
 
